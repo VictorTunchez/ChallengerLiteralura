@@ -12,9 +12,9 @@ public class Autor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private Double anioNacimiento;
+    private int anioNacimiento;
 
-    private Double anioMuerte;
+    private int anioMuerte;
 
     private String nombre;
 
@@ -26,14 +26,14 @@ public class Autor {
 
     public Autor(DatosAutor datosAutor) {
         if (datosAutor.anioNacimiento() != null) {
-            this.anioNacimiento = Double.valueOf(datosAutor.anioNacimiento());
+            this.anioNacimiento = Integer.parseInt(datosAutor.anioNacimiento());
         } else {
-            this.anioNacimiento = 0.0;
+            this.anioNacimiento = 0;
         }
         if (datosAutor.anioMuerte() != null) {
-            this.anioMuerte = Double.valueOf(datosAutor.anioMuerte());
+            this.anioMuerte = Integer.parseInt(datosAutor.anioMuerte());
         } else {
-            this.anioMuerte = 0.0;
+            this.anioMuerte = 0;
         }
         this.nombre = datosAutor.nombre();
     }
@@ -46,19 +46,19 @@ public class Autor {
         this.id = id;
     }
 
-    public Double getAnioNacimiento() {
+    public int getAnioNacimiento() {
         return anioNacimiento;
     }
 
-    public void setAnioNacimiento(Double anioNacimiento) {
+    public void setAnioNacimiento(int anioNacimiento) {
         this.anioNacimiento = anioNacimiento;
     }
 
-    public Double getAnioMuerte() {
+    public int getAnioMuerte() {
         return anioMuerte;
     }
 
-    public void setAnioMuerte(Double anioMuerte) {
+    public void setAnioMuerte(int anioMuerte) {
         this.anioMuerte = anioMuerte;
     }
 
@@ -68,6 +68,14 @@ public class Autor {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public List<Libro> getLibro() {
+        return libro;
+    }
+
+    public void setLibro(List<Libro> libro) {
+        this.libro = libro;
     }
 
     @Override

@@ -50,10 +50,10 @@ public class Principal {
                     servicio.listarAutoresRegistrados();
                     break;
                 case 4:
-
+                    servicio.listarAutoresPorAnio();
                     break;
                 case 5:
-
+                    servicio.listarLibrosPorIdioma();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");

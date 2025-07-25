@@ -4,7 +4,7 @@ import com.challenger.literalura.model.Autor;
 import com.challenger.literalura.model.DatosLibro;
 import com.challenger.literalura.model.DatosResultado;
 import com.challenger.literalura.model.Libro;
-import com.challenger.literalura.repository.IAutorInterface;
+import com.challenger.literalura.repository.IAutorRepository;
 import com.challenger.literalura.repository.ILibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class LibrosService {
     @Autowired
     private ILibroRepository repository;
     @Autowired
-    private IAutorInterface autorRepository;
+    private IAutorRepository autorRepository;
     private Scanner teclado = new Scanner(System.in);
     private ConexionAPI conexionApi = new ConexionAPI();
     private ConversorJSON conversor = new ConversorJSON();
@@ -69,8 +69,35 @@ public class LibrosService {
         libros.forEach(System.out::println);
     }
 
+    //lista de autores
+    //Pendiante de mejora, los autores no deben repetirse
     public void listarAutoresRegistrados() {
         List<Autor> autores = autorRepository.findAll();
         autores.forEach(System.out::println);
+    }
+
+    public void listarAutoresPorAnio() {
+        System.out.println("Ingrese el año vivo del autor(es) que desea buscar: ");
+        int anio = teclado.nextInt();
+        List<Autor> autors = autorRepository.findByAnioMuerteLessThan(anio);
+        autors.forEach(System.out::println);
+    }
+
+    public void listarLibrosPorIdioma() {
+        var menuIdioma = """
+                    Ingrese el idioma para bucar los libros:
+                    es - español
+                    en - ingles
+                    fr - frances
+                    pt - portugues  
+                    """;
+        System.out.println(menuIdioma);
+        String idioma = teclado.nextLine();
+        List<Libro> libros = repository.buscarLibroPorIdioma(idioma);
+        if(libros.isEmpty()){
+            System.out.println("No se encontro un libro con ese idioma");
+        }else{
+            libros.forEach(System.out::println);
+        }
     }
 }
