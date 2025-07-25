@@ -3,7 +3,7 @@ package com.challenger.literalura.model;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Entity
 @Table(name = "libros")
@@ -81,6 +81,6 @@ public class Libro {
                 "Título: " + titulo + "\n" +
                 "Autor(es): " + autor.getNombre() + "\n" +
                 "Idiomas: " + idiomas + "\n" +
-                "Total de descargas: " + totalDescargas;
+                "Total de descargas: " + totalDescargas + "\n";
     }
 }

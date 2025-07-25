@@ -16,11 +16,10 @@ public class LiteraluraApplication implements CommandLineRunner {
 	}
 
 	@Autowired
-	private LibrosService service;
+	private Principal principal;
 
 	@Override
 	public void run(String... args) throws Exception {
-		Principal principal = new Principal(service);
 		principal.muestraElMenu();
 	}
 }
