@@ -16,7 +16,7 @@ public class Libro {
     @Column(unique = true)
     private String titulo;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     private Autor autor;
 
     private List<String> idiomas;

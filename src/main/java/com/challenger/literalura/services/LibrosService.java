@@ -1,9 +1,6 @@
 package com.challenger.literalura.services;
 
-import com.challenger.literalura.model.Autor;
-import com.challenger.literalura.model.DatosLibro;
-import com.challenger.literalura.model.DatosResultado;
-import com.challenger.literalura.model.Libro;
+import com.challenger.literalura.model.*;
 import com.challenger.literalura.repository.IAutorRepository;
 import com.challenger.literalura.repository.ILibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,19 +46,44 @@ public class LibrosService {
     }
 
     //Hace uso de los dos metodos anteriores para la bsuqueda del libro por nombre
-    public void buscarLibroPorNombre(){
+    public void buscarLibroPorNombre() {
         System.out.println("\nIngresa el nombre del libro que deseas buscar: ");
         String nombreLibroBuscado = teclado.nextLine();
 
         Optional<DatosLibro> datosLibro = buscarLibroPorNombreAPI(nombreLibroBuscado);
 
         if(datosLibro.isPresent()){
-            Libro libro = new Libro(datosLibro.get());
+            DatosLibro datos = datosLibro.get();
+
+            // obtenemos el primer autor (si hay)
+            if (datos.autor() == null || datos.autor().isEmpty()) {
+                System.out.println("El libro no tiene autores registrados.");
+                return;
+            }
+
+            DatosAutor datosAutor = datos.autor().get(0); // tomamos solo el primero
+
+            // Buscamos si ya existe un autor con el mismo nombre
+            Optional<Autor> autorExistente = autorRepository.findByNombre(datosAutor.nombre());
+
+            Autor autor;
+            if (autorExistente.isPresent()) {
+                autor = autorExistente.get();
+            } else {
+                autor = new Autor(datosAutor);
+                autorRepository.save(autor);
+            }
+
+            // creamos el libro con el autor existente o nuevo
+            Libro libro = new Libro(datos);
+            libro.setAutor(autor);
+
             insertarLibro(libro);
-        }else {
-            System.out.println("No se encontro un libro con ese nombre en la API");
+        } else {
+            System.out.println("No se encontró un libro con ese nombre en la API.");
         }
     }
+
 
     //imprime la lista de libros que hay en la base de datos
     public void listarLibrosRegistrados() {
